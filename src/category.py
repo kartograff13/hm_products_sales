@@ -3,8 +3,9 @@ from src.product import Product
 
 class Category:
     """Класс для представления категории товара"""
+
     category_count: int = 0
-    product_count: int  = 0
+    product_count: int = 0
 
     def __init__(self, name: str, description: str, products: list[Product]) -> None:
         """
