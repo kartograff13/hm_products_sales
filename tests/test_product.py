@@ -9,6 +9,7 @@ def test_product_initialization() -> None:
     quantity = 6
 
     product = Product(name, description, price, quantity)
+
     assert product.name == name
     assert product.description == description
     assert product.price == price
@@ -17,8 +18,8 @@ def test_product_initialization() -> None:
 
 def test_product_attributes_types() -> None:
     """Тест типов атрибутов Product"""
-
     product = Product("Test", "Desc", 100.0, 5)
+
     assert isinstance(product.name, str)
     assert isinstance(product.description, str)
     assert isinstance(product.price, float)
