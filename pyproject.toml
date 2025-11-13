@@ -38,13 +38,6 @@ exclude = 'venv'
 
 [tool.black]
 line-length = 119
-exclude = '''
-(
-    \(
-        |\.git
-    )\
-)
-'''
 
 [tool.isort]
 line_length = 119
