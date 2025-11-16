@@ -3,7 +3,7 @@ from src.product import Product
 
 
 def test_category_initialization(sample_products: list[Product]) -> None:
-    """Тест корректности инициализации объекта Category"""
+    """Тест корректности инициализации объекта Category."""
     name = "Test name"
     description = "Test descriptions"
     category = Category(name, description, sample_products)
@@ -11,7 +11,8 @@ def test_category_initialization(sample_products: list[Product]) -> None:
     assert category.name == name
     assert category.description == description
 
-    expected_products = ["Product 1, 123.45 руб. Остаток: 10 шт.", "Product 2, 678.9 руб. Остаток: 20 шт."]
+    expected_products = ["Product 1, 123.45 руб. Остаток: 10 шт.\n", "Product 2, 678.9 руб. Остаток: 20 шт.\n"]
+
     assert category.products == expected_products
 
 
@@ -79,25 +80,18 @@ def test_add_product_method(sample_products: list[Product]) -> None:
     assert category.get_products_count() == init_count + 1
     assert Category.product_count == init_total_count + 1
 
-    expected_product_string = "New Product, 100.5 руб. Остаток: 5 шт."
+    expected_product_string = "New Product, 100.5 руб. Остаток: 5 шт.\n"
     assert expected_product_string in category.products
 
 
 def test_products_getter_format(sample_products: list[Product]) -> None:
-    """Тест геттера products на формат вывода"""
+    """Тест формата вывода геттера products"""
     category = Category("Test Category", "Test Desc", sample_products)
     products_list = category.products
 
-    assert isinstance(products_list, list)
-    assert all(isinstance(item, str) for item in products_list)
+    expected_formats = ["Product 1, 123.45 руб. Остаток: 10 шт.\n", "Product 2, 678.9 руб. Остаток: 20 шт.\n"]
 
-    expected_formats = ["Product 1, 123.45 руб. Остаток: 10 шт.", "Product 2, 678.9 руб. Остаток: 20 шт."]
     assert products_list == expected_formats
-
-    for product_string in products_list:
-        assert "руб." in product_string
-        assert "Остаток:" in product_string
-        assert "шт." in product_string
 
 
 def test_get_products_objects_method(sample_products: list[Product]) -> None:
@@ -143,4 +137,4 @@ def test_products_list_integrity(sample_products: list[Product]) -> None:
     for product_str in initial_products:
         assert product_str in category.products
 
-    assert "Additional Product, 50.0 руб. Остаток: 3 шт." in category.products
+    assert "Additional Product, 50.0 руб. Остаток: 3 шт.\n" in category.products

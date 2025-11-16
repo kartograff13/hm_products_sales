@@ -45,7 +45,9 @@ class Category:
     @property
     def products(self) -> list[str]:
         """Геттер для получения списка товаров в list[str]"""
-        return [f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт." for product in self.__products]
+        return [
+            f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n" for product in self.__products
+        ]
 
     def get_products_objects(self) -> list[Product]:
         """Возвращает список объектов (продуктов) для проверки дубликатов"""

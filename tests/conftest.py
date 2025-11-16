@@ -7,9 +7,10 @@ from src.product import Product
 @pytest.fixture
 def sample_products() -> list[Product]:
     """Фикстура с тестовыми продуктами"""
-    return [Product("Product 1", "Description 1", 123.45, 10),
-            Product("Product 2", "Description 2", 678.9, 20)
-            ]
+    return [
+        Product("Product 1", "Description 1", 123.45, 10),
+        Product("Product 2", "Description 2", 678.9, 20)
+    ]
 
 
 @pytest.fixture(autouse=True)
