@@ -3,13 +3,16 @@ from src.product import Product
 
 
 def test_category_initialization(sample_products: list[Product]) -> None:
+    """Тест корректности инициализации объекта Category"""
     name = "Test name"
     description = "Test descriptions"
     category = Category(name, description, sample_products)
 
     assert category.name == name
     assert category.description == description
-    assert category.products == sample_products
+
+    expected_products = ["Product 1, 123.45 руб. Остаток: 10 шт.", "Product 2, 678.9 руб. Остаток: 20 шт."]
+    assert category.products == expected_products
 
 
 def test_category_count_increment() -> None:
@@ -62,3 +65,82 @@ def test_get_products_count_method(sample_products: list[Product]) -> None:
 
     assert products_count == len(sample_products)
     assert products_count == 2
+
+
+def test_add_product_method(sample_products: list[Product]) -> None:
+    """Тест метода add_product"""
+    category = Category("Test Category", "Test Description", [])
+    init_count = category.get_products_count()
+    init_total_count = Category.product_count
+
+    new_product = Product("New Product", "New Desc", 100.5, 5)
+    category.add_product(new_product)
+
+    assert category.get_products_count() == init_count + 1
+    assert Category.product_count == init_total_count + 1
+
+    expected_product_string = "New Product, 100.5 руб. Остаток: 5 шт."
+    assert expected_product_string in category.products
+
+
+def test_products_getter_format(sample_products: list[Product]) -> None:
+    """Тест геттера products на формат вывода"""
+    category = Category("Test Category", "Test Desc", sample_products)
+    products_list = category.products
+
+    assert isinstance(products_list, list)
+    assert all(isinstance(item, str) for item in products_list)
+
+    expected_formats = ["Product 1, 123.45 руб. Остаток: 10 шт.", "Product 2, 678.9 руб. Остаток: 20 шт."]
+    assert products_list == expected_formats
+
+    for product_string in products_list:
+        assert "руб." in product_string
+        assert "Остаток:" in product_string
+        assert "шт." in product_string
+
+
+def test_get_products_objects_method(sample_products: list[Product]) -> None:
+    """Тест метода get_products_objects"""
+    category = Category("Test Category", "Test Desc", sample_products)
+    products_objects = category.get_products_objects()
+
+    assert isinstance(products_objects, list)
+    assert len(products_objects) == 2
+    assert all(isinstance(product, Product) for product in products_objects)
+
+    assert products_objects[0].name == "Product 1"
+    assert products_objects[1].name == "Product 2"
+    assert products_objects[0].price == 123.45
+    assert products_objects[1].price == 678.9
+
+
+def test_products_encapsulation() -> None:
+    """Тест инкапсуляции списка продуктов"""
+    category = Category("Test Category", "Test Desc", [])
+
+    assert hasattr(category, "get_products_objects")
+    assert hasattr(category, "add_product")
+    assert hasattr(category, "products")
+
+    assert category.get_products_count() == 0
+    assert category.products == []
+
+
+def test_products_list_integrity(sample_products: list[Product]) -> None:
+    """Тест целостности списка продуктов после операций"""
+    category = Category("Test Category", "Test Desc", sample_products)
+
+    initial_count = category.get_products_count()
+    initial_products = category.products.copy()
+
+    new_product = Product("Additional Product", "Additional Desc", 50.0, 3)
+    category.add_product(new_product)
+
+    assert category.get_products_count() == initial_count + 1
+    assert len(category.products) == initial_count + 1
+
+    for product_str in initial_products:
+        assert product_str in category.products
+
+    assert "Additional Product, 50.0 руб. Остаток: 3 шт." in category.products
