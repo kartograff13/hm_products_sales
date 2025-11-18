@@ -141,14 +141,14 @@ def test_products_list_integrity(sample_products: list[Product]) -> None:
 
 
 def test_category_str_representation(sample_products: list[Product]) -> None:
-    """Тест строкового представления категории товара"""
+    """Тест строкового представления категории"""
     category = Category("Смартфоны", "Мобильные устройства", sample_products)
-    expected_str = "Смартфоны, количество продуктов: 2 шт."
+    expected_str = "Смартфоны, количество продуктов: 30 шт."
 
     assert str(category) == expected_str
 
     new_product = Product("New Phone", "Description", 50000.0, 5)
     category.add_product(new_product)
-    updated_str = "Смартфоны, количество продуктов: 3 шт."
+    updated_str = "Смартфоны, количество продуктов: 35 шт."
 
     assert str(category) == updated_str
