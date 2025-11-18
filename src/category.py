@@ -28,6 +28,9 @@ class Category:
 
         Category.category_count += 1
 
+    def __str__(self) -> str:
+        return f"{self.name}, количество продуктов: {self.get_products_count()} шт."
+
     def add_product(self, product: Product) -> None:
         """
         Добавления товара в категорию.
