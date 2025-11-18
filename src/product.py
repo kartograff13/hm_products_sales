@@ -28,6 +28,13 @@ class Product:
         """Строковое отображение товара"""
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
+    def __add__(self, other: "Product") -> float:
+        """Сложение товаров - возвращает общую стоимость всех товаров"""
+        if type(other) is not type(self):
+            raise TypeError("Можно складывать только объекты класса Product")
+
+        return (self.price * self.quantity) + (other.price * other.quantity)
+
     @property
     def price(self) -> float:
         """Геттер получения цены продукта"""

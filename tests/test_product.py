@@ -202,3 +202,73 @@ def test_private_price_attribute() -> None:
 
     with pytest.raises(AttributeError):
         _ = product.__price  # type: ignore
+
+
+def test_product_addition() -> None:
+    """Тест сложения двух продуктов"""
+    product_a = Product("Product A", "Description A", 100.0, 10)
+    product_b = Product("Product B", "Description B", 200.0, 2)
+
+    total_value = product_a + product_b
+
+    assert total_value == 1400.0
+
+
+def test_product_addition_multiple_calculations() -> None:
+    """Тест нескольких сложений с разными ценами и количествами"""
+    test_cases = [
+        (100.0, 5, 200.0, 3, 1100.0),
+        (50.0, 10, 75.0, 4, 800.0),
+        (1000.0, 2, 500.0, 5, 4500.0),
+        (10.0, 100, 25.0, 20, 1500.0),
+    ]
+
+    for price1, qty1, price2, qty2, expected in test_cases:
+        product1 = Product(f"Product1", "Desc", price1, qty1)
+        product2 = Product(f"Product2", "Desc", price2, qty2)
+
+        total = product1 + product2
+
+        assert total == expected
+
+
+def test_product_addition_after_price_change() -> None:
+    """Тест сложения после изменения цены продукта"""
+    product_a = Product("Product A", "Description A", 100.0, 10)
+    product_b = Product("Product B", "Description B", 200.0, 2)
+
+    with patch("builtins.print"):
+        product_a.price = 150.0
+
+    total_value = product_a + product_b
+
+    assert total_value == 1900.0
+
+
+def test_product_addition_after_quantity_change() -> None:
+    """Тест сложения после изменения количества продукта"""
+    product_a = Product("Product A", "Description A", 100.0, 10)
+    product_b = Product("Product B", "Description B", 200.0, 2)
+
+    product_data = {"name": "Product A", "description": "Updated", "price": 100.0, "quantity": 5}
+    Product.new_product(product_data, [product_a])
+
+    total_value = product_a + product_b
+
+    assert total_value == 1900.0
+
+
+def test_product_addition_exact_type_match() -> None:
+    """Тест, что сложение работает только для точного совпадения типов"""
+    product = Product("Product", "Description", 100.0, 5)
+
+    other_product = Product("Other", "Desc", 50.0, 2)
+    result = product + other_product
+
+    assert result == 600.0
+
+    with pytest.raises(TypeError, match="Можно складывать только объекты класса Product"):
+        _ = product + "string"  # type: ignore
+
+    with pytest.raises(TypeError, match="Можно складывать только объекты класса Product"):
+        _ = product + 123  # type: ignore
