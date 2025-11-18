@@ -224,8 +224,8 @@ def test_product_addition_multiple_calculations() -> None:
     ]
 
     for price1, qty1, price2, qty2, expected in test_cases:
-        product1 = Product(f"Product1", "Desc", price1, qty1)
-        product2 = Product(f"Product2", "Desc", price2, qty2)
+        product1 = Product("Product1", "Desc", price1, qty1)
+        product2 = Product("Product2", "Desc", price2, qty2)
 
         total = product1 + product2
 
