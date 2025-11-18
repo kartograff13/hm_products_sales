@@ -1,4 +1,9 @@
+from typing import TYPE_CHECKING
+
 from src.product import Product
+
+if TYPE_CHECKING:
+    from src.category_iterator import CategoryIterator
 
 
 class Category:
@@ -32,6 +37,17 @@ class Category:
         """Строковое отображение категории товара"""
         total_quantity = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {total_quantity} шт."
+
+    def __iter__(self) -> "CategoryIterator":
+        """
+        Возвращает итератор для перебора товаров в категории.
+
+        Returns:
+            Объект CategoryIterator
+        """
+        from src.category_iterator import CategoryIterator
+
+        return CategoryIterator(self)
 
     def add_product(self, product: Product) -> None:
         """
