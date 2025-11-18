@@ -138,3 +138,17 @@ def test_products_list_integrity(sample_products: list[Product]) -> None:
         assert product_str in category.products
 
     assert "Additional Product, 50.0 руб. Остаток: 3 шт.\n" in category.products
+
+
+def test_category_str_representation(sample_products: list[Product]) -> None:
+    """Тест строкового представления категории товара"""
+    category = Category("Смартфоны", "Мобильные устройства", sample_products)
+    expected_str = "Смартфоны, количество продуктов: 2 шт."
+
+    assert str(category) == expected_str
+
+    new_product = Product("New Phone", "Description", 50000.0, 5)
+    category.add_product(new_product)
+    updated_str = "Смартфоны, количество продуктов: 3 шт."
+
+    assert str(category) == updated_str
