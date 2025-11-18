@@ -24,6 +24,10 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
+    def __str__(self) -> str:
+        """Строковое отображение товара"""
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
     @property
     def price(self) -> float:
         """Геттер получения цены продукта"""
