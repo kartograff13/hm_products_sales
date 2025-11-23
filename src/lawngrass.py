@@ -4,8 +4,16 @@ from src.product import Product
 class LawnGrass(Product):
     """Класс-наследник класса Product для представления продукта газонная трава"""
 
-    def __init__(self, name: str, description: str, price: float, quantity: int, country: str, germination_period: str,
-                 color: str) -> None:
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ) -> None:
         """
         Инициализация продукта.
 
