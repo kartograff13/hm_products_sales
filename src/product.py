@@ -31,7 +31,7 @@ class Product:
     def __add__(self, other: "Product") -> float:
         """Сложение товаров - возвращает общую стоимость всех товаров"""
         if type(other) is not type(self):
-            raise TypeError("Можно складывать только объекты класса Product")
+            raise TypeError("Нельзя складывать товары разных классов. ")
 
         return (self.price * self.quantity) + (other.price * other.quantity)
 
