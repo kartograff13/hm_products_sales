@@ -1,3 +1,7 @@
+import pytest
+
+from src.lawngrass import LawnGrass
+from src.product import Product
 from src.smartphone import Smartphone
 
 
@@ -45,8 +49,8 @@ def test_smartphone_inheritance() -> None:
     assert hasattr(smartphone, "__add__")
 
 
-def test_smartphone_addition() -> None:
-    """Тест сложения продуктов смартфон"""
+def test_smartphone_addition_same_class() -> None:
+    """Тест сложения продукта смартфон одного класса"""
     smartphone1 = Smartphone("Phone1", "Desc1", 1000.0, 2, 80.0, "Model1", 64, "Black")
     smartphone2 = Smartphone("Phone2", "Desc2", 1500.0, 3, 85.0, "Model2", 128, "White")
 
@@ -54,3 +58,19 @@ def test_smartphone_addition() -> None:
     expected_value = (1000.0 * 2) + (1500.0 * 3)
 
     assert total_value == expected_value
+
+
+def test_smartphone_addition_different_classes_error() -> None:
+    """Тест ошибки при сложении продукта смартфон с товарами других классов"""
+    smartphone = Smartphone("Phone", "Desc", 1000.0, 2, 80.0, "Model", 64, "Black")
+    product = Product("Product", "Desc", 500.0, 4)
+    lawn_grass = LawnGrass("Grass", "Desc", 300.0, 5, "Country", "14 days", "Green")
+
+    with pytest.raises(TypeError, match="Нельзя складывать товары разных классов. "):
+        _ = smartphone + product
+
+    with pytest.raises(TypeError, match="Нельзя складывать товары разных классов. "):
+        _ = smartphone + lawn_grass
+
+    with pytest.raises(TypeError, match="Нельзя складывать товары разных классов. "):
+        _ = product + smartphone
