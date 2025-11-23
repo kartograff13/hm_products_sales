@@ -1,9 +1,11 @@
 from src.category import Category
+from src.lawngrass import LawnGrass
 from src.product import Product
+from src.smartphone import Smartphone
 
 
 def test_category_initialization(sample_products: list[Product]) -> None:
-    """Тест корректности инициализации объекта Category."""
+    """Тест корректности инициализации объекта Category"""
     name = "Test name"
     description = "Test descriptions"
     category = Category(name, description, sample_products)
@@ -152,3 +154,32 @@ def test_category_str_representation(sample_products: list[Product]) -> None:
     updated_str = "Смартфоны, количество продуктов: 35 шт."
 
     assert str(category) == updated_str
+
+
+def test_add_product_combined_validation() -> None:
+    """Тест комбинированной проверки с isinstance и issubclass"""
+    category = Category("Test Category", "Test Description", [])
+
+    valid_objects = [
+        Product("Product", "Desc", 100.0, 5),
+        Smartphone("Smartphone", "Desc", 200.0, 3, 80.0, "Model", 64, "Black"),
+        LawnGrass("LawnGrass", "Desc", 300.0, 2, "Country", "14 days", "Green"),
+    ]
+
+    for obj in valid_objects:
+        try:
+            category.add_product(obj)
+            print(f"Успешно добавлен: {type(obj).__name__}")
+        except TypeError:
+            print(f"Ошибка при добавлении: {type(obj).__name__}")
+
+    invalid_objects = ["string", 123, 45.67, None, ["list"], {"dict": "value"}]
+
+    for obj in invalid_objects:  # type: ignore
+        try:
+            category.add_product(obj)  # type: ignore
+            print(f"Не вызвана ошибка для: {type(obj).__name__}")
+        except TypeError:
+            print(f"Корректно заблокирован: {type(obj).__name__}")
+
+    assert category.get_products_count() == 3

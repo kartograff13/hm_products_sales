@@ -55,7 +55,13 @@ class Category:
 
         Args:
             product: Объект товара для добавления
+
+        Raises:
+            TypeError: Если product не является экземпляром Product или его подклассов
         """
+        if not isinstance(product, Product) or not issubclass(type(product), Product):
+            raise TypeError("Можно добавлять только объекты класса Product или его наследников")
+
         self.__products.append(product)
         Category.product_count += 1
 
