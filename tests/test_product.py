@@ -267,8 +267,8 @@ def test_product_addition_exact_type_match() -> None:
 
     assert result == 600.0
 
-    with pytest.raises(TypeError, match="Можно складывать только объекты класса Product"):
+    with pytest.raises(TypeError, match="Нельзя складывать товары разных классов. "):
         _ = product + "string"  # type: ignore
 
-    with pytest.raises(TypeError, match="Можно складывать только объекты класса Product"):
+    with pytest.raises(TypeError, match="Нельзя складывать товары разных классов. "):
         _ = product + 123  # type: ignore
