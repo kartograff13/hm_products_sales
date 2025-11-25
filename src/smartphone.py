@@ -28,8 +28,15 @@ class Smartphone(Product):
             memory: Объём встроенной памяти
             color: Цвет
         """
-        super().__init__(name, description, price, quantity)
         self.efficiency = efficiency
         self.model = model
         self.memory = memory
         self.color = color
+        super().__init__(name, description, price, quantity)
+
+    def __repr__(self) -> str:
+        """Возвращает строковое представление объекта Smartphone"""
+        return (
+            f"Smartphone('{self.name}', '{self.description}', {self.price}, "
+            f"{self.quantity}, {self.efficiency}, '{self.model}', {self.memory}, '{self.color}')"
+        )

@@ -1,9 +1,10 @@
 from typing import Optional, cast
 
 from src.base_product import BaseProduct
+from src.log_creation_mixin import LogCreationMixin
 
 
-class Product(BaseProduct):
+class Product(LogCreationMixin, BaseProduct):
     """Класс для представления продукта"""
 
     def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
@@ -20,6 +21,7 @@ class Product(BaseProduct):
         self._description = description
         self.__price = price
         self._quantity = quantity
+        super().__init__()
 
     def __str__(self) -> str:
         """Строковое отображение товара"""

@@ -26,7 +26,14 @@ class LawnGrass(Product):
             germination_period: Срок прорастания
             color: Цвет
         """
-        super().__init__(name, description, price, quantity)
         self.country = country
         self.germination_period = germination_period
         self.color = color
+        super().__init__(name, description, price, quantity)
+
+    def __repr__(self) -> str:
+        """Возвращает строковое представление объекта LawnGrass"""
+        return (
+            f"LawnGrass('{self.name}', '{self.description}', {self.price}, "
+            f"{self.quantity}, '{self.country}', '{self.germination_period}', '{self.color}')"
+        )
