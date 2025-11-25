@@ -14,15 +14,20 @@ class LogCreationMixin:
         class_name = self.__class__.__name__
 
         params = []
-        for params_name in dir(self):
-            if not params_name.startswith("_") and not callable(getattr(self, params_name)):
-                try:
-                    value = getattr(self, params_name)
-                    if isinstance(value, str):
-                        params.append(f"'{value}'")
-                    else:
-                        params.append(str(value))
-                except AttributeError:
+        for param_name in dir(self):
+            if param_name.startswith("_"):
+                continue
+
+            try:
+                value = getattr(self, param_name)
+                if callable(value):
                     continue
+            except AttributeError:
+                continue
+
+            if isinstance(value, str):
+                params.append(f"'{value}'")
+            else:
+                params.append(str(value))
 
         return f"{class_name}({', '.join(params)})"

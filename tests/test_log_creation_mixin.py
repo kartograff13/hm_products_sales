@@ -1,6 +1,7 @@
 import pytest
 
 from src.lawngrass import LawnGrass
+from src.log_creation_mixin import LogCreationMixin
 from src.product import Product
 from src.smartphone import Smartphone
 
@@ -36,3 +37,59 @@ class TestLogCreationMixin:
 
         assert "Product(" in captured.out
         assert "Smartphone(" in captured.out
+
+
+class ProblematicAttributeTestClass(LogCreationMixin):
+    """Тестовый класс с проблемным атрибутом, вызывающим AttributeError"""
+
+    def __init__(self, normal_value: str = "test") -> None:
+        """
+        Инициализация тестового класса.
+
+        Args:
+            normal_value: Нормальное значение для атрибута
+        """
+        self.normal_attr = normal_value
+        self._private_attr = "private"
+        self._problem_attr = None
+        super().__init__()
+
+    @property
+    def problem_attr(self):
+        """Свойство, которое вызывает AttributeError при доступе"""
+        if self._problem_attr is None:
+            raise AttributeError("Simulated attribute error")
+        return self._problem_attr
+
+
+def test_repr_with_attribute_error() -> None:
+    """Тест обработки AttributeError в методе __repr__"""
+    test_obj = ProblematicAttributeTestClass("normal_value")
+
+    with pytest.raises(AttributeError, match="Simulated attribute error"):
+        _ = test_obj.problem_attr
+
+    repr_str = repr(test_obj)
+
+    assert "ProblematicAttributeTestClass" in repr_str
+    assert "'normal_value'" in repr_str
+
+    assert "_private_attr" not in repr_str
+    assert "'private'" not in repr_str
+    assert "problem_attr" not in repr_str
+
+
+def test_repr_empty_object() -> None:
+    """Тест __repr__ для объекта без атрибутов"""
+
+    class EmptyClass(LogCreationMixin):
+        """Пустой класс для тестирования"""
+
+        def __init__(self) -> None:
+            """Инициализация без атрибутов"""
+            super().__init__()
+
+    empty_obj = EmptyClass()
+    repr_str = repr(empty_obj)
+
+    assert repr_str == "EmptyClass()"
