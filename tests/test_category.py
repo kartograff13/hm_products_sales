@@ -15,7 +15,7 @@ def test_category_initialization(sample_products: list[Product]) -> None:
 
     expected_products = ["Product 1, 123.45 руб. Остаток: 10 шт.\n", "Product 2, 678.9 руб. Остаток: 20 шт.\n"]
 
-    assert category.products == expected_products
+    assert category.get_products_info == expected_products
 
 
 def test_category_count_increment() -> None:
@@ -83,13 +83,14 @@ def test_add_product_method(sample_products: list[Product]) -> None:
     assert Category.product_count == init_total_count + 1
 
     expected_product_string = "New Product, 100.5 руб. Остаток: 5 шт.\n"
-    assert expected_product_string in category.products
+
+    assert expected_product_string in category.get_products_info
 
 
 def test_products_getter_format(sample_products: list[Product]) -> None:
     """Тест формата вывода геттера products"""
     category = Category("Test Category", "Test Desc", sample_products)
-    products_list = category.products
+    products_list = category.get_products_info
 
     expected_formats = ["Product 1, 123.45 руб. Остаток: 10 шт.\n", "Product 2, 678.9 руб. Остаток: 20 шт.\n"]
 
@@ -128,18 +129,18 @@ def test_products_list_integrity(sample_products: list[Product]) -> None:
     category = Category("Test Category", "Test Desc", sample_products)
 
     initial_count = category.get_products_count()
-    initial_products = category.products.copy()
+    initial_products = category.get_products_info.copy()
 
     new_product = Product("Additional Product", "Additional Desc", 50.0, 3)
     category.add_product(new_product)
 
     assert category.get_products_count() == initial_count + 1
-    assert len(category.products) == initial_count + 1
+    assert len(category.get_products_info) == initial_count + 1
 
     for product_str in initial_products:
-        assert product_str in category.products
+        assert product_str in category.get_products_info
 
-    assert "Additional Product, 50.0 руб. Остаток: 3 шт.\n" in category.products
+    assert "Additional Product, 50.0 руб. Остаток: 3 шт.\n" in category.get_products_info
 
 
 def test_category_str_representation(sample_products: list[Product]) -> None:

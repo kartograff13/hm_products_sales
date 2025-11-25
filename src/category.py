@@ -1,12 +1,13 @@
 from typing import TYPE_CHECKING
 
 from src.base_product import BaseProduct
+from src.product_container import ProductContainer
 
 if TYPE_CHECKING:
     from src.category_iterator import CategoryIterator
 
 
-class Category:
+class Category(ProductContainer):
     """Класс для представления категории товара"""
 
     name: str
@@ -35,8 +36,7 @@ class Category:
 
     def __str__(self) -> str:
         """Строковое отображение категории товара"""
-        total_quantity = sum(product.quantity for product in self.__products)
-        return f"{self.name}, количество продуктов: {total_quantity} шт."
+        return f"{self.name}, количество продуктов: {self.total_quantity} шт."
 
     def __iter__(self) -> "CategoryIterator":
         """
@@ -48,6 +48,21 @@ class Category:
         from src.category_iterator import CategoryIterator
 
         return CategoryIterator(self)
+
+    @property
+    def products(self) -> list[BaseProduct]:
+        """Свойство для получения списка объектов продуктов"""
+        return self.__products
+
+    @property
+    def total_quantity(self) -> int:
+        """Общее количество товаров в категории"""
+        return sum(product.quantity for product in self.__products)
+
+    @property
+    def total_cost(self) -> float:
+        """Общая стоимость всех товаров в категории"""
+        return sum(product.price * product.quantity for product in self.__products)
 
     def add_product(self, product: BaseProduct) -> None:
         """
@@ -70,7 +85,7 @@ class Category:
         return len(self.__products)
 
     @property
-    def products(self) -> list[str]:
+    def get_products_info(self) -> list[str]:
         """Геттер для получения списка товаров в list[str]"""
         return [str(product) + "\n" for product in self.__products]
 
