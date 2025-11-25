@@ -184,3 +184,11 @@ def test_add_product_combined_validation() -> None:
             print(f"Корректно заблокирован: {type(obj).__name__}")
 
     assert category.get_products_count() == 3
+
+
+def test_category_total_cost(sample_products: list[Product]) -> None:
+    """Тест расчета общей стоимости товаров в категории"""
+    category = Category("Test Category", "Test Description", sample_products)
+
+    expected_cost = (123.45 * 10) + (678.9 * 20)
+    assert category.total_cost == expected_cost
