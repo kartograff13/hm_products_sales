@@ -3,12 +3,13 @@ from typing import Callable
 import pytest
 from _pytest.capture import CaptureResult
 
+from src.base_product import BaseProduct
 from src.category import Category
 from src.product import Product
 
 
 @pytest.fixture
-def sample_products() -> list[Product]:
+def sample_products() -> list[BaseProduct]:
     """Фикстура с тестовыми продуктами"""
     return [
         Product("Product 1", "Description 1", 123.45, 10),
@@ -26,6 +27,6 @@ def reset_counters() -> None:
 @pytest.fixture
 def capture_creation_logs(capsys: pytest.CaptureFixture) -> Callable[[], CaptureResult]:
     """Фикстура для перехвата логов создания объектов"""
-    def _capture()-> CaptureResult:
+    def _capture() -> CaptureResult:
         return capsys.readouterr()
     return _capture

@@ -1,10 +1,11 @@
+from src.base_product import BaseProduct
 from src.category import Category
 from src.lawngrass import LawnGrass
 from src.product import Product
 from src.smartphone import Smartphone
 
 
-def test_category_initialization(sample_products: list[Product]) -> None:
+def test_category_initialization(sample_products: list[BaseProduct]) -> None:
     """Тест корректности инициализации объекта Category"""
     name = "Test name"
     description = "Test descriptions"
@@ -29,7 +30,7 @@ def test_category_count_increment() -> None:
     assert category2.category_count == Category.category_count
 
 
-def test_product_count_increment(sample_products: list[Product]) -> None:
+def test_product_count_increment(sample_products: list[BaseProduct]) -> None:
     """Тест подсчета количества продуктов"""
     initial_product_count = Category.product_count
     category = Category("Test Category", "Test Desc", sample_products)
@@ -50,7 +51,7 @@ def test_empty_category() -> None:
     assert Category.product_count == 0
 
 
-def test_category_attributes_types(sample_products: list[Product]) -> None:
+def test_category_attributes_types(sample_products: list[BaseProduct]) -> None:
     """Тест типов атрибутов Category"""
     category = Category("Test", "Desc", sample_products)
 
@@ -61,7 +62,7 @@ def test_category_attributes_types(sample_products: list[Product]) -> None:
     assert isinstance(Category.product_count, int)
 
 
-def test_get_products_count_method(sample_products: list[Product]) -> None:
+def test_get_products_count_method(sample_products: list[BaseProduct]) -> None:
     """Тест метода get_products_count"""
     category = Category("Test Category", "Test Desc", sample_products)
     products_count = category.get_products_count()
@@ -70,7 +71,7 @@ def test_get_products_count_method(sample_products: list[Product]) -> None:
     assert products_count == 2
 
 
-def test_add_product_method(sample_products: list[Product]) -> None:
+def test_add_product_method(sample_products: list[BaseProduct]) -> None:
     """Тест метода add_product"""
     category = Category("Test Category", "Test Description", [])
     init_count = category.get_products_count()
@@ -87,7 +88,7 @@ def test_add_product_method(sample_products: list[Product]) -> None:
     assert expected_product_string in category.get_products_info
 
 
-def test_products_getter_format(sample_products: list[Product]) -> None:
+def test_products_getter_format(sample_products: list[BaseProduct]) -> None:
     """Тест формата вывода геттера products"""
     category = Category("Test Category", "Test Desc", sample_products)
     products_list = category.get_products_info
@@ -97,7 +98,7 @@ def test_products_getter_format(sample_products: list[Product]) -> None:
     assert products_list == expected_formats
 
 
-def test_get_products_objects_method(sample_products: list[Product]) -> None:
+def test_get_products_objects_method(sample_products: list[BaseProduct]) -> None:
     """Тест метода get_products_objects"""
     category = Category("Test Category", "Test Desc", sample_products)
     products_objects = category.get_products_objects()
@@ -124,7 +125,7 @@ def test_products_encapsulation() -> None:
     assert category.products == []
 
 
-def test_products_list_integrity(sample_products: list[Product]) -> None:
+def test_products_list_integrity(sample_products: list[BaseProduct]) -> None:
     """Тест целостности списка продуктов после операций"""
     category = Category("Test Category", "Test Desc", sample_products)
 
@@ -143,7 +144,7 @@ def test_products_list_integrity(sample_products: list[Product]) -> None:
     assert "Additional Product, 50.0 руб. Остаток: 3 шт.\n" in category.get_products_info
 
 
-def test_category_str_representation(sample_products: list[Product]) -> None:
+def test_category_str_representation(sample_products: list[BaseProduct]) -> None:
     """Тест строкового представления категории"""
     category = Category("Смартфоны", "Мобильные устройства", sample_products)
     expected_str = "Смартфоны, количество продуктов: 30 шт."
@@ -186,7 +187,7 @@ def test_add_product_combined_validation() -> None:
     assert category.get_products_count() == 3
 
 
-def test_category_total_cost(sample_products: list[Product]) -> None:
+def test_category_total_cost(sample_products: list[BaseProduct]) -> None:
     """Тест расчета общей стоимости товаров в категории"""
     category = Category("Test Category", "Test Description", sample_products)
 

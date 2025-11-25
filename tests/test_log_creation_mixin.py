@@ -55,7 +55,7 @@ class ProblematicAttributeTestClass(LogCreationMixin):
         super().__init__()
 
     @property
-    def problem_attr(self):
+    def problem_attr(self) -> str:
         """Свойство, которое вызывает AttributeError при доступе"""
         if self._problem_attr is None:
             raise AttributeError("Simulated attribute error")

@@ -2,6 +2,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
+from src.base_product import BaseProduct
 from src.product import Product
 
 
@@ -141,7 +142,7 @@ def test_new_product_creation() -> None:
 def test_new_product_with_duplicate() -> None:
     """Тест создания продукта с дубликатом (обновление существующего)"""
     existing_product = Product("Existing Product", "Description", 100.0, 10)
-    product_list = [existing_product]
+    product_list: list[BaseProduct] = [existing_product]
 
     product_data = {"name": "Existing Product", "description": "Updated Description", "price": 150.0, "quantity": 5}
 
@@ -158,7 +159,7 @@ def test_new_product_with_duplicate() -> None:
 def test_new_product_with_duplicate_lower_price() -> None:
     """Тест создания продукта с дубликатом с более низкой ценой"""
     existing_product = Product("Existing Product", "Description", 100.0, 10)
-    product_list = [existing_product]
+    product_list: list[BaseProduct] = [existing_product]
 
     product_data = {"name": "Existing Product", "description": "Updated Description", "price": 80.0, "quantity": 5}
 
@@ -172,7 +173,7 @@ def test_new_product_with_duplicate_lower_price() -> None:
 def test_new_product_without_duplicate() -> None:
     """Тест создания нового продукта без дубликатов"""
     existing_product = Product("Existing Product", "Description", 100.0, 10)
-    product_list = [existing_product]
+    product_list: list[BaseProduct] = [existing_product]
 
     product_data = {"name": "Different Product", "description": "Different Description", "price": 200.0, "quantity": 5}
 
