@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from src.product import Product
+from src.base_product import BaseProduct
 
 if TYPE_CHECKING:
     from src.category_iterator import CategoryIterator
@@ -11,11 +11,11 @@ class Category:
 
     name: str
     description: str
-    __products: list[Product]
+    __products: list[BaseProduct]
     category_count: int = 0
     product_count: int = 0
 
-    def __init__(self, name: str, description: str, products: list[Product]) -> None:
+    def __init__(self, name: str, description: str, products: list[BaseProduct]) -> None:
         """
         Инициализация категории.
 
@@ -49,7 +49,7 @@ class Category:
 
         return CategoryIterator(self)
 
-    def add_product(self, product: Product) -> None:
+    def add_product(self, product: BaseProduct) -> None:
         """
         Добавления товара в категорию.
 
@@ -59,7 +59,7 @@ class Category:
         Raises:
             TypeError: Если product не является экземпляром Product или его подклассов
         """
-        if not isinstance(product, Product) or not issubclass(type(product), Product):
+        if not isinstance(product, BaseProduct) or not issubclass(type(product), BaseProduct):
             raise TypeError("Можно добавлять только объекты класса Product или его наследников")
 
         self.__products.append(product)
@@ -74,6 +74,6 @@ class Category:
         """Геттер для получения списка товаров в list[str]"""
         return [str(product) + "\n" for product in self.__products]
 
-    def get_products_objects(self) -> list[Product]:
+    def get_products_objects(self) -> list[BaseProduct]:
         """Возвращает список объектов (продуктов) для проверки дубликатов"""
         return self.__products

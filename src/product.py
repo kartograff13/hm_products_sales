@@ -1,13 +1,10 @@
-from typing import Optional
+from typing import Optional, cast
+
+from src.base_product import BaseProduct
 
 
-class Product:
+class Product(BaseProduct):
     """Класс для представления продукта"""
-
-    name: str
-    description: str
-    __price: float
-    quantity: int
 
     def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
         """
@@ -19,21 +16,31 @@ class Product:
             price: Цена продукта
             quantity: Количество в наличии
         """
-        self.name = name
-        self.description = description
+        self._name = name
+        self._description = description
         self.__price = price
-        self.quantity = quantity
+        self._quantity = quantity
 
     def __str__(self) -> str:
         """Строковое отображение товара"""
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
-    def __add__(self, other: "Product") -> float:
+    def __add__(self, other: "BaseProduct") -> float:
         """Сложение товаров - возвращает общую стоимость всех товаров"""
         if type(other) is not type(self):
             raise TypeError("Нельзя складывать товары разных классов. ")
 
         return (self.price * self.quantity) + (other.price * other.quantity)
+
+    @property
+    def name(self) -> str:
+        """Геттер для названия продукта"""
+        return self._name
+
+    @property
+    def description(self) -> str:
+        """Геттер для описания продукта"""
+        return self._description
 
     @property
     def price(self) -> float:
@@ -69,8 +76,18 @@ class Product:
                 else:
                     print("Некорректный ввод. Пожалуйста, введите 'y' для подтверждения или 'n' для отмены. ")
 
+    @property
+    def quantity(self) -> int:
+        """Геттер для количества продукта"""
+        return self._quantity
+
+    @quantity.setter
+    def quantity(self, value: int) -> None:
+        """Сеттер для количества продукта"""
+        self._quantity = value
+
     @classmethod
-    def new_product(cls, product_data: dict, product_list: Optional[list["Product"]] = None) -> "Product":
+    def new_product(cls, product_data: dict, product_list: Optional[list["BaseProduct"]] = None) -> "Product":
         """
         Класс-метод для создания нового продукта с проверкой дубликатов.
 
@@ -92,6 +109,6 @@ class Product:
                     existing_product.quantity += quantity
                     if price > existing_product.price:
                         existing_product.price = price
-                    return existing_product
+                    return cast(Product, existing_product)
 
         return cls(name, description, price, quantity)
