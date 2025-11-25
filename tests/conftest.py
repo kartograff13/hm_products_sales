@@ -1,4 +1,7 @@
+from typing import Callable
+
 import pytest
+from _pytest.capture import CaptureResult
 
 from src.category import Category
 from src.product import Product
@@ -18,3 +21,11 @@ def reset_counters() -> None:
     """Фикстура автоматически сбрасывает счетчики перед каждым тестом"""
     Category.category_count = 0
     Category.product_count = 0
+
+
+@pytest.fixture
+def capture_creation_logs(capsys: pytest.CaptureFixture) -> Callable[[], CaptureResult]:
+    """Фикстура для перехвата логов создания объектов"""
+    def _capture()-> CaptureResult:
+        return capsys.readouterr()
+    return _capture
