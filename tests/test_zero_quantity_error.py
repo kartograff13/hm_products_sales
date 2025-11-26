@@ -22,15 +22,19 @@ class TestZeroQuantityError:
 
         product.quantity = 0
 
-        with pytest.raises(ZeroQuantityError,
-                           match="Товар 'Zero Product' имеет нулевое количество и не может быть добавлен в категорию"):
+        with pytest.raises(
+            ZeroQuantityError,
+            match="Товар 'Zero Product' имеет нулевое количество и не может быть добавлен в категорию",
+        ):
             category.add_product(product)
 
     def test_create_order_with_zero_quantity(self) -> None:
         """Тест создания заказа с нулевым количеством"""
         product = Product("Test Product", "Description", 100.0, 10)
 
-        with pytest.raises(ZeroQuantityError, match="Нельзя создать заказ с нулевым количеством товара 'Test Product'"):
+        with pytest.raises(
+            ZeroQuantityError, match="Нельзя создать заказ с нулевым количеством товара 'Test Product'"
+        ):
             Order(product, 0)
 
     def test_successful_product_addition(self) -> None:
