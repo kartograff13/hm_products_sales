@@ -273,3 +273,17 @@ def test_product_addition_exact_type_match() -> None:
 
     with pytest.raises(TypeError, match="Нельзя складывать товары разных классов. "):
         _ = product + 123  # type: ignore
+
+
+def test_product_zero_quantity_initialization() -> None:
+    """Тест создания продукта с нулевым количеством (должен вызывать ValueError)"""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен. "):
+        Product("Test Product", "Description", 100.0, 0)
+
+
+def test_new_product_zero_quantity() -> None:
+    """Тест создания нового продукта через new_product с нулевым количеством"""
+    product_data = {"name": "New Product", "description": "Description", "price": 100.0, "quantity": 0}
+
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен. "):
+        Product.new_product(product_data)

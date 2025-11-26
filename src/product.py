@@ -16,11 +16,17 @@ class Product(LogCreationMixin, BaseProduct):
             description: Описание продукта
             price: Цена продукта
             quantity: Количество в наличии
+
+        Raises:
+            ValueError: Если количество товара равно нулю
         """
         self._name = name
         self._description = description
         self.__price = price
-        self._quantity = quantity
+        if quantity != 0:
+            self._quantity = quantity
+        else:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен. ")
         super().__init__()
 
     def __str__(self) -> str:
@@ -104,6 +110,9 @@ class Product(LogCreationMixin, BaseProduct):
         description = product_data["description"]
         price = product_data["price"]
         quantity = product_data["quantity"]
+
+        if quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен. ")
 
         if product_list is not None:
             for existing_product in product_list:

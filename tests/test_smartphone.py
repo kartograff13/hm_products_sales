@@ -74,3 +74,18 @@ def test_smartphone_addition_different_classes_error() -> None:
 
     with pytest.raises(TypeError, match="Нельзя складывать товары разных классов. "):
         _ = product + smartphone
+
+
+def test_smartphone_zero_quantity_initialization() -> None:
+    """Тест создания товара смартфон с нулевым количеством (должен вызывать ValueError)"""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен. "):
+        Smartphone(
+            name="Test Phone",
+            description="Test Description",
+            price=1000.0,
+            quantity=0,
+            efficiency=80.5,
+            model="Test Model",
+            memory=128,
+            color="Black",
+        )

@@ -71,3 +71,17 @@ def test_lawngrass_addition_different_classes_error() -> None:
 
     with pytest.raises(TypeError, match="Нельзя складывать товары разных классов. "):
         _ = product + lawn_grass
+
+
+def test_lawngrass_zero_quantity_initialization() -> None:
+    """Тест создания товара газонная трава с нулевым количеством (должен вызывать ValueError)"""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен. "):
+        LawnGrass(
+            name="Test Grass",
+            description="Test Description",
+            price=500.0,
+            quantity=0,
+            country="Test Country",
+            germination_period="14 days",
+            color="Green",
+        )
