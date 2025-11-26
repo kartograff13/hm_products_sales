@@ -81,7 +81,9 @@ class Category(ProductContainer):
                 raise TypeError("Можно добавлять только объекты класса Product или его наследников")
 
             if product.quantity == 0:
-                raise ZeroQuantityError(f"Товар '{product.name}' имеет нулевое количество и не может быть добавлен в категорию")
+                raise ZeroQuantityError(
+                    f"Товар '{product.name}' имеет нулевое количество и не может быть добавлен в категорию"
+                )
 
             self.__products.append(product)
             Category.product_count += 1
@@ -91,7 +93,6 @@ class Category(ProductContainer):
             raise
         finally:
             print("Обработка добавления товара в категорию завершена")
-
 
     def get_products_count(self) -> int:
         """Метод для получения количества товаров в категории"""
@@ -105,7 +106,6 @@ class Category(ProductContainer):
     def get_products_objects(self) -> list[BaseProduct]:
         """Возвращает список объектов (продуктов) для проверки дубликатов"""
         return self.__products
-
 
     def middle_price(self) -> float:
         """
