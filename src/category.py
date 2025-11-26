@@ -92,3 +92,16 @@ class Category(ProductContainer):
     def get_products_objects(self) -> list[BaseProduct]:
         """Возвращает список объектов (продуктов) для проверки дубликатов"""
         return self.__products
+
+
+    def middle_price(self) -> float:
+        """
+        Рассчитывает среднюю цену товаров в категории.
+
+        Returns:
+            Средняя цена товаров в категории. Если в категории нет товаров, возвращает 0.
+        """
+        try:
+            return self.total_cost / self.total_quantity
+        except ZeroDivisionError:
+            return 0.0

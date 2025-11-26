@@ -190,6 +190,38 @@ def test_add_product_combined_validation() -> None:
 def test_category_total_cost(sample_products: list[BaseProduct]) -> None:
     """Тест расчета общей стоимости товаров в категории"""
     category = Category("Test Category", "Test Description", sample_products)
-
     expected_cost = (123.45 * 10) + (678.9 * 20)
+
     assert category.total_cost == expected_cost
+
+
+def test_category_middle_price_with_products(sample_products: list[BaseProduct]) -> None:
+    """Тест расчета средней цены для категории с товарами"""
+    category = Category("Test Category", "Test Description", sample_products)
+
+    total_cost = (123.45 * 10) + (678.9 * 20)
+    total_quantity = 10 + 20
+    expected_middle_price = total_cost / total_quantity
+
+    assert category.middle_price() == expected_middle_price
+
+
+def test_category_middle_price_empty_category() -> None:
+    """Тест расчета средней цены для пустой категории"""
+    category = Category("Empty Category", "No products", [])
+
+    assert category.middle_price() == 0.0
+
+
+def test_category_middle_price_after_operations(sample_products: list[BaseProduct]) -> None:
+    """Тест расчета средней цены после операций с товарами"""
+    category = Category("Test Category", "Test Description", sample_products)
+
+    new_product = Product("New Product", "Description", 100.0, 5)
+    category.add_product(new_product)
+
+    total_cost = (123.45 * 10) + (678.9 * 20) + (100.0 * 5)
+    total_quantity = 10 + 20 + 5
+    expected_middle_price = total_cost / total_quantity
+
+    assert category.middle_price() == expected_middle_price
