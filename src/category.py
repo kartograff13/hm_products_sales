@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING
 
 from src.base_product import BaseProduct
 from src.product_container import ProductContainer
+from src.zero_quantity_error import ZeroQuantityError
 
 if TYPE_CHECKING:
     from src.category_iterator import CategoryIterator
@@ -73,12 +74,24 @@ class Category(ProductContainer):
 
         Raises:
             TypeError: Если product не является экземпляром Product или его подклассов
+            ZeroQuantityError: Если количество товара равно нулю
         """
-        if not isinstance(product, BaseProduct) or not issubclass(type(product), BaseProduct):
-            raise TypeError("Можно добавлять только объекты класса Product или его наследников")
+        try:
+            if not isinstance(product, BaseProduct) or not issubclass(type(product), BaseProduct):
+                raise TypeError("Можно добавлять только объекты класса Product или его наследников")
 
-        self.__products.append(product)
-        Category.product_count += 1
+            if product.quantity == 0:
+                raise ZeroQuantityError(f"Товар '{product.name}' имеет нулевое количество и не может быть добавлен в категорию")
+
+            self.__products.append(product)
+            Category.product_count += 1
+            print(f"Товар '{product.name}' успешно добавлен в категорию '{self.name}'")
+        except (TypeError, ZeroQuantityError) as e:
+            print(f"Ошибка при добавлении товара: {e}")
+            raise
+        finally:
+            print("Обработка добавления товара в категорию завершена")
+
 
     def get_products_count(self) -> int:
         """Метод для получения количества товаров в категории"""

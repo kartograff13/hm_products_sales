@@ -1,6 +1,7 @@
 from src.base_product import BaseProduct
 from src.log_creation_mixin import LogCreationMixin
 from src.product_container import ProductContainer
+from src.zero_quantity_error import ZeroQuantityError
 
 
 class Order(LogCreationMixin, ProductContainer):
@@ -13,10 +14,23 @@ class Order(LogCreationMixin, ProductContainer):
         Args:
             product: Купленный товар
             quantity: Количество купленного товара
+
+        Raises:
+            ZeroQuantityError: Если количество товара равно нулю
         """
-        self._product = product
-        self._quantity = quantity
-        super().__init__()
+        try:
+            if quantity == 0:
+                raise ZeroQuantityError(f"Нельзя создать заказ с нулевым количеством товара '{product.name}'")
+
+            self._product = product
+            self._quantity = quantity
+            print(f"Заказ на товар '{product.name}' в количестве {quantity} шт. успешно создан")
+            super().__init__()
+        except ZeroQuantityError as e:
+            print(f"Ошибка при создании заказа: {e}")
+            raise
+        finally:
+            print("Обработка создания заказа завершена")
 
     def __str__(self) -> str:
         """Строковое представление заказа"""
